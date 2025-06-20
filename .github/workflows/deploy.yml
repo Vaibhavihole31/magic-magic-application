@@ -31,33 +31,5 @@ jobs:
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: 'ap-south-1'
 
-            # FIXED: Upload files with correct MIME types
-            - name: Upload HTML files
-              run: |
-                aws s3 sync ./build s3://magic-magic-application \
-                --exclude "*" --include "*.html" \
-                --content-type "text/html" \
-                --cache-control "max-age=0, no-cache, no-store, must-revalidate"
-
-            - name: Upload JavaScript files  
-              run: |
-                aws s3 sync ./build s3://magic-magic-application \
-                --exclude "*" --include "*.js" \
-                --content-type "application/javascript" \
-                --cache-control "max-age=31536000"
-
-            - name: Upload CSS files
-              run: |
-                aws s3 sync ./build s3://magic-magic-application \
-                --exclude "*" --include "*.css" \
-                --content-type "text/css" \
-                --cache-control "max-age=31536000"
-
-            - name: Upload other static assets
-              run: |
-                aws s3 sync ./build s3://magic-magic-application \
-                --exclude "*.html" --exclude "*.js" --exclude "*.css" \
-                --cache-control "max-age=31536000"
-
-            - name: Delete removed files
-              run: aws s3 sync ./build s3://magic-magic-application --delete
+            - name: Push to S3
+              run: aws s3 sync . s3://magic-magic-application --delete
