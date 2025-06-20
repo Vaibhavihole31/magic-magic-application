@@ -32,4 +32,12 @@ jobs:
                 aws-region: 'ap-south-1'
 
             - name: Push to S3
-              run: aws s3 sync . s3://magic-magic-application --delete
+              run: |
+                # First sync non-JS/CSS files
+                aws s3 sync ./dist s3://magic-magic-application --delete --exclude "*.js" --exclude "*.css"
+                
+                # Then sync JS files with correct content type
+                aws s3 sync ./dist s3://magic-magic-application --include "*.js" --content-type "application/javascript"
+                
+                # Then sync CSS files with correct content type
+                aws s3 sync ./dist s3://magic-magic-application --include "*.css" --content-type "text/css"
