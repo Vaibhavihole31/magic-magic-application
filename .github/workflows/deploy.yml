@@ -34,10 +34,10 @@ jobs:
             - name: Push to S3
               run: |
                 # First sync non-JS/CSS files
-                aws s3 sync ./dist s3://<bucket_name> --delete --exclude "*.js" --exclude "*.css"
+                aws s3 sync ./dist s3://magic-magic-application  --delete --exclude "*.js" --exclude "*.css"
                   
                 # Then sync JS files with correct content type
-                aws s3 sync ./dist s3://<bucket_name> --include "*.js" --content-type "application/javascript"
+                aws s3 sync ./dist s3://magic-magic-application --include "*.js" --content-type "application/javascript"
                   
                 # Then sync CSS files with correct content type
-                aws s3 sync ./dist s3://<bucket_name> --include "*.css" --content-type "text/css"
+                aws s3 sync ./dist s3://magic-magic-application --include "*.css" --content-type "text/css"
